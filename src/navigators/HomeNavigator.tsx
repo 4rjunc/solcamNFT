@@ -30,12 +30,10 @@ export function HomeNavigator() {
                   color={color}
                 />
               );
-            case "Blank":
+            case "MINT":
               return (
                 <MaterialCommunityIcon
-                  name={
-                    focused ? "application-edit" : "application-edit-outline"
-                  }
+                  name={focused ? "pickaxe" : "guitar-pick-outline"}
                   size={size}
                   color={color}
                 />
@@ -45,7 +43,7 @@ export function HomeNavigator() {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Blank" component={BlankScreen} />
+      <Tab.Screen name="MINT" component={BlankScreen} />
     </Tab.Navigator>
   );
 }
