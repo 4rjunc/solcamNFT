@@ -1,4 +1,7 @@
-import { transact } from "@solana-mobile/mobile-wallet-adapter-protocol-web3js";
+import {
+  transact,
+  Web3MobileWallet,
+} from "@solana-mobile/mobile-wallet-adapter-protocol-web3js";
 import { Account, useAuthorization } from "./useAuthorization";
 import {
   Transaction,
@@ -24,7 +27,7 @@ export function useMobileWallet() {
         return await authorizeSessionWithSignIn(wallet, signInPayload);
       });
     },
-    [authorizeSession]
+    [authorizeSession],
   );
 
   const disconnect = useCallback(async (): Promise<void> => {
@@ -35,7 +38,7 @@ export function useMobileWallet() {
 
   const signAndSendTransaction = useCallback(
     async (
-      transaction: Transaction | VersionedTransaction
+      transaction: Transaction | VersionedTransaction,
     ): Promise<TransactionSignature> => {
       return await transact(async (wallet) => {
         await authorizeSession(wallet);
@@ -45,7 +48,7 @@ export function useMobileWallet() {
         return signatures[0];
       });
     },
-    [authorizeSession]
+    [authorizeSession],
   );
 
   const signMessage = useCallback(
@@ -59,7 +62,33 @@ export function useMobileWallet() {
         return signedMessages[0];
       });
     },
-    [authorizeSession]
+    [authorizeSession],
+  );
+
+  const signTransactionForUMI = useCallback(
+    async (transaction: any): Promise<any> => {
+      return await transact(async (wallet: Web3MobileWallet) => {
+        await authorizeSession(wallet);
+        const signatures = await wallet.signTransactions({
+          transactions: [transaction],
+        });
+        return signatures[0];
+      });
+    },
+    [authorizeSession],
+  );
+
+  const signAllTransactionsForUMI = useCallback(
+    async (transactions: any[]): Promise<any[]> => {
+      return await transact(async (wallet: Web3MobileWallet) => {
+        await authorizeSession(wallet);
+        const signatures = await wallet.signTransactions({
+          transactions: transactions,
+        });
+        return signatures;
+      });
+    },
+    [authorizeSession],
   );
 
   return useMemo(
@@ -68,8 +97,15 @@ export function useMobileWallet() {
       signIn,
       disconnect,
       signAndSendTransaction,
+      signTransactionForUMI,
+      signAllTransactionsForUMI,
       signMessage,
     }),
-    [signAndSendTransaction, signMessage]
+    [
+      signAndSendTransaction,
+      signAllTransactionsForUMI,
+      signTransactionForUMI,
+      signMessage,
+    ],
   );
 }
