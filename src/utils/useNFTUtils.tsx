@@ -5,7 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 // metaplex modules
 import { createNft } from "@metaplex-foundation/mpl-token-metadata";
 import { generateSigner, percentAmount } from "@metaplex-foundation/umi";
-import { base58 } from "@metaplex-foundation/umi/serializers";
+import { base58 } from "@metaplex-foundation/umi-serializers";
 
 // utils
 import { useAuthorization } from "./useAuthorization";
@@ -15,7 +15,7 @@ import { supabase } from "./supabase";
 import { useUmi } from "./UmiProvider";
 import { useConnection } from "./ConnectionProvider";
 
-//import { NftAsset } from "../screens";
+import { NFTAsset } from "../screens/NFTScreen";
 
 // FileSystem
 import { decode } from "base64-arraybuffer";
@@ -27,7 +27,7 @@ export function useNFTUtils() {
   const queryClient = useQueryClient();
   const umi = useUmi();
 
-  const createNFT = async (asset: NftAsset) => {
+  const createNFT = async (asset: NFTAsset) => {
     if (!selectedAccount?.publicKey) {
       return;
     }
@@ -48,7 +48,7 @@ export function useNFTUtils() {
     const { data: imageResponse, error: imageError } = await supabase.storage
       .from("solanamob")
       .upload(
-        `nfts/image/${asset.filename}.${asset.extension}`,
+        `nfts/image/${asset.fileName}.${asset.extension}`,
         decode(base64ImageFile),
         {
           upsert: true,

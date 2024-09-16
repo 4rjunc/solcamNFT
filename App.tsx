@@ -18,6 +18,7 @@ import {
 } from "react-native-paper";
 import { AppNavigator } from "./src/navigators/AppNavigator";
 import { ClusterProvider } from "./src/components/cluster/cluster-data-access";
+import { UmiProvider } from "./src/utils/UmiProvider";
 
 const queryClient = new QueryClient();
 
@@ -48,27 +49,29 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <ClusterProvider>
         <ConnectionProvider config={{ commitment: "processed" }}>
-          <SafeAreaView
-            style={[
-              styles.shell,
-              {
-                backgroundColor:
-                  colorScheme === "dark"
-                    ? MD3DarkTheme.colors.background
-                    : MD3LightTheme.colors.background,
-              },
-            ]}
-          >
-            <PaperProvider
-              theme={
-                colorScheme === "dark"
-                  ? CombinedDarkTheme
-                  : CombinedDefaultTheme
-              }
+          <UmiProvider>
+            <SafeAreaView
+              style={[
+                styles.shell,
+                {
+                  backgroundColor:
+                    colorScheme === "dark"
+                      ? MD3DarkTheme.colors.background
+                      : MD3LightTheme.colors.background,
+                },
+              ]}
             >
-              <AppNavigator />
-            </PaperProvider>
-          </SafeAreaView>
+              <PaperProvider
+                theme={
+                  colorScheme === "dark"
+                    ? CombinedDarkTheme
+                    : CombinedDefaultTheme
+                }
+              >
+                <AppNavigator />
+              </PaperProvider>
+            </SafeAreaView>
+          </UmiProvider>
         </ConnectionProvider>
       </ClusterProvider>
     </QueryClientProvider>

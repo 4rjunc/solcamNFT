@@ -30,7 +30,6 @@
         "projectId": "f458359f-bdff-4b77-a089-0f381ce614d1"
       }
     },
-    "owner": "4rjunc",
     "plugins": [
       [
         "expo-location",

@@ -5,6 +5,7 @@ import { HomeScreen } from "../screens/HomeScreen";
 import MaterialCommunityIcon from "@expo/vector-icons/MaterialCommunityIcons";
 import { useTheme } from "react-native-paper";
 import BlankScreen from "../screens/BlankScreen";
+import NFTScreen from "../screens/NFTScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -43,7 +44,7 @@ export function HomeNavigator() {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="MINT" component={BlankScreen} />
+      <Tab.Screen name="MINT" component={NFTScreen} />
     </Tab.Navigator>
   );
 }
