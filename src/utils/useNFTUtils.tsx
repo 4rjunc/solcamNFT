@@ -66,7 +66,7 @@ export function useNFTUtils() {
 
     const metadata = {
       name: `Photo #${asset.fileName}`,
-      description: "NFT minted using solcamNFT",
+      description: `${asset.description}`,
       image: storedFile.publicUrl,
       external_url: "https://github.com/4rjunc",
       attributes: [

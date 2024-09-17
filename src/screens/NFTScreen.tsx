@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { StyleSheet, View, Image } from "react-native";
-import { Button } from "react-native-paper";
+import { Button, TextInput } from "react-native-paper";
 import {
   CameraType,
   launchCameraAsync,
@@ -15,6 +15,7 @@ import { useNFTUtils } from "../utils/useNFTUtils";
 
 export type NFTAsset = {
   fileName: string;
+  description: string;
   extension: string;
   uri: string;
 };
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    gap: 24,
+    gap: 34,
   },
   buttonRow: {
     display: "flex",
@@ -35,14 +36,18 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
   },
+  input: {
+    width: "90%",
+    height: 100,
+    marginBottom: 16,
+  },
 });
 
 export default function NFTScreen() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [nftAsset, setNftAsset] = useState<NFTAsset | null>(null);
-
+  const [desc, setDesc] = useState<string>("");
   const { createNFT } = useNFTUtils();
-
   const requestPermissions = async () => {
     const { status: mediaLibraryPermissionStatus } =
       await requestMediaLibraryPermissionsAsync();
@@ -83,6 +88,7 @@ export default function NFTScreen() {
       const fileNameParts = result.assets[0].fileName?.split(".")!;
       setNftAsset({
         fileName: fileNameParts[0],
+        description: desc,
         extension: fileNameParts[1],
         uri: result.assets[0].uri,
       });
@@ -108,19 +114,19 @@ export default function NFTScreen() {
       const extension = asset.filename.split(".")[1];
       setNftAsset({
         fileName: asset.id,
+        description: desc,
         extension: extension,
         uri: asset.uri,
       });
       alertAndLog("Image saved", "The Image Saved In Gallery");
     }
-
     setIsLoading(false);
   };
 
   const handleCreateNFT = async () => {
     setIsLoading(true);
     if (nftAsset) {
-      await createNFT(nftAsset);
+      await createNFT({ ...nftAsset, description: desc });
     }
     setIsLoading(false);
   };
@@ -134,24 +140,30 @@ export default function NFTScreen() {
       {nftAsset ? (
         <>
           <Image source={{ uri: nftAsset.uri }} style={styles.image} />
-
+          <TextInput
+            label="Description"
+            value={desc}
+            style={styles.input}
+            onChangeText={setDesc}
+            multiline
+          />
           <Button
             mode="contained"
             loading={isLoading}
             onPress={handleCreateNFT}
             disabled={isLoading}
           >
-            Create NFT
+            Create NFT ☘️
           </Button>
 
           <Button mode="outlined" onPress={clearImage} disabled={isLoading}>
-            Clear image
+            Clear Image 🗑️
           </Button>
         </>
       ) : (
         <>
           <Button mode="contained" onPress={captureImage} disabled={isLoading}>
-            Take a photo
+            Take a Photo 📸
           </Button>
 
           <Button
@@ -159,7 +171,7 @@ export default function NFTScreen() {
             onPress={pickImageFromGallery}
             disabled={isLoading}
           >
-            Select a photo from the gallery
+            Choose From Gallery 🎞️
           </Button>
         </>
       )}
