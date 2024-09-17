@@ -2,6 +2,8 @@
 
 Mobile app that captures an image through the camera, mints an NFT with that image, and adds the current location longitude, latitude in the metadata.
 
+- View App demo: [HERE](https://youtu.be/a6ocGtqSkP8)
+- View the minted NFT: [HERE](https://explorer.solana.com/address/AfsprbMaRK3mP5crsZQeHuFGPCZsdgU47B3rd9PQozW4?cluster=devnet)
 <table>
   <tr>
     <td align="center">
