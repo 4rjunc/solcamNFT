@@ -50,3 +50,33 @@ Clone the repository
 ```
 git clone https://github.com/4rjunc/solcamNFT.git
 ```
+
+Change Directory
+
+```
+cd solcamNFT
+```
+
+Install Dependecies
+
+```
+yarn
+```
+
+Create a development build
+
+```
+npx eas build --profile development --platform android
+```
+
+Run a dev-client
+
+```
+npx expo start --dev-client
+```
+
+\***\* in case of metaplex/umi Dependecies resolve issue run \*\***
+
+```
+yarn fix
+```
